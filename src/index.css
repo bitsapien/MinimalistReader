@@ -11,3 +11,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app {
+  display: flex;
+}
+
+nav {
+  height: 100vh;
+  width: 25%;
+  padding: 1%;
+  padding-bottom: 0px;
+  border-right: 0.5px grey solid;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.right ul {
+  height: 100%;
+  border-bottom: 0.5px grey solid;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-x: scroll;
+}
+
+.right ul li {
+  padding: 5px 0 5px 5px;
+  border-bottom: 0.5px grey dotted;
+}
+
