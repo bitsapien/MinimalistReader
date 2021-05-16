@@ -8,10 +8,50 @@ body {
   box-sizing: border-box;
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 1050px;
+  margin: 0 auto;
+}
+
+/*Sidebar Nav*/
+.sidebar {
+  width: 275px;
+  height: 100%;
+  position: fixed;
+}
+
+.sidebar nav {
+  padding-right: 2rem;
+}
+
+.sidebar nav a {
+  padding: 1rem;
+  padding-left: 0;
+  text-decoration: none;
+  color: #202020;
+  font-size: 1.2rem;
+  display: block;
+}
+
+.sidebar nav button {
+  padding: 1rem;
+  padding-left: 0;
+  text-decoration: none;
+  color: white;
+  font-size: 1rem;
+  display: block;
+  background-color: #202020;
+  border: none;
+  width: 100%;
+  border-radius: 2px;
+}
+
 /* Insta */
 .feed {
   margin: 0 auto;
-  width: 650px;
+  width: 500px;
 }
 
 .feed section {
@@ -19,12 +59,22 @@ body {
   box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
   -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
-.feed section h4 {
+.feed section h3 {
   padding: 15px;
   margin-bottom: 0;
+}
+
+.feed section h3 a i {
+  margin-right: 5px;
+}
+
+.feed section h3 a {
+  padding: 0.5rem;
+  text-decoration: none;
+  color: #202020;
 }
 
 .feed section span {
@@ -37,9 +87,13 @@ body {
 }
 
 .feed section img {
-  width: 650px;
+  width: 500px;
 }
 
 .feed section .panel {
   padding: 10px 5px;
+}
+
+.feed section .panel a {
+  padding: 2rem;
 }

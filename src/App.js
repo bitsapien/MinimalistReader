@@ -1,39 +1,6 @@
 import { useState, useEffect } from 'react'
 import fetcher from './fetcher'
-
-const ShowPost = ({ post }) => {
-  const [postData, setPostData] = useState({})
-
-  const getPost = async() => {
-    const data = await post
-    console.log(data)
-    setPostData(data)
-  }
-
-  useEffect(() => {
-    getPost()
-  })
-
-  const postImage = (imgLink, title) =>
-    imgLink ? (<img src={imgLink} alt={title} />) : ''
-
-  const postPanel = ({ link }) => <a href={link} rel="noreferrer" target="_blank" title={link}> {link} </a>
-
-  const createPost = ({ title, description, openGraphData, source, link }) => (
-    <section>
-      <h4> {title} </h4>
-      <span> {source} </span>
-      {postImage(openGraphData['og:image'], title, description)}
-      <div className="panel"> {postPanel({ link })} </div>
-
-    </section>
-  )
-
-  const loadingPost = () => ''
-
-
-  return (<div> {postData.id ? createPost(postData) : loadingPost} </div>)
-}
+import Post from './components/Post'
 
 
 function App() {
@@ -49,8 +16,17 @@ function App() {
   }, [])
 
   return (
-    <div className="feed">
-      {feed.map(post => <ShowPost post={post} />)}
+    <div class="content">
+      <div className="sidebar">
+        <h3> <i class="lni lni-coffee-cup"></i> Minimalist Reader </h3>
+        <nav>
+          <button href="/add"> <i class="lni lni-plus"></i> Add feed </button>
+
+        </nav>
+      </div>
+      <div className="feed">
+        {feed.map(post => <Post post={post} />)}
+      </div>
     </div>
   )
 }

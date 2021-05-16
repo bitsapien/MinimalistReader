@@ -29,7 +29,6 @@ const fetchOpenGraph = async(feed) => {
     itemNew.openGraphData = openGraphData
 
     return itemNew
-
   })
   return feedy
 }
