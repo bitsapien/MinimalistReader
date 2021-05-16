@@ -5,42 +5,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Insta */
+.feed {
+  margin: 0 auto;
+  width: 650px;
 }
 
-.app {
-  display: flex;
+.feed section {
+  min-height: 100px;
+  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  border-radius: 4px;
 }
 
-nav {
-  height: 100vh;
-  width: 25%;
-  padding: 1%;
-  padding-bottom: 0px;
-  border-right: 0.5px grey solid;
+.feed section h4 {
+  padding: 15px;
+  margin-bottom: 0;
 }
 
-.right {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+.feed section span {
+  margin: 10px;
+  border-radius: 2px;
+  background-color: #202020;
+  color: white;
+  padding: 5px;
+  display: inline-block;
 }
 
-.right ul {
-  height: 100%;
-  border-bottom: 0.5px grey solid;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-x: scroll;
+.feed section img {
+  width: 650px;
 }
 
-.right ul li {
-  padding: 5px 0 5px 5px;
-  border-bottom: 0.5px grey dotted;
+.feed section .panel {
+  padding: 10px 5px;
 }
-
