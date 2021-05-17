@@ -5,20 +5,22 @@ const rssToJson = (feedXml, source) => {
   if(items.length > 0) {
     const regex = /<!\[CDATA\[(.*)\]\]>/;
     return items.map((item, index) => ({
-      id: `${source}-${index}`,
+      id: `${source.name}-${item.querySelector('link').innerHTML.replace('/','-')}`,
       title: item.querySelector('title').innerHTML.match(regex)[1],
       link: item.querySelector('link').innerHTML,
       description: item.querySelector('description').innerHTML.replaceAll('\n', '').match(regex)[1],
-      source
+      source,
+      pullDateTime: Date.now()
     }))
   } else {
     const entries = Array.from(xml.querySelectorAll('entry'))
     return entries.map((item, index) => ({
-      id: `${source}-${index}`,
+      id: `${source.name}-${item.querySelector('link').getAttribute('href').replace('/','-')}`,
       title: item.querySelector('title').innerHTML,
       link: item.querySelector('link').getAttribute('href'),
       description: '',
-      source
+      source,
+      pullDateTime: Date.now()
     }))
   }
 }

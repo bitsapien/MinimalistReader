@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import fetcher from './fetcher'
 import Post from './components/Post'
 import AddFeedDialog from './components/AddFeedDialog'
-import { readStore } from './store'
+import { readStore, writeStore } from './store'
 
 
 const getIcon = url => {
@@ -25,16 +25,24 @@ function App() {
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
 
   const feedSources = readStore()['feedSources']
+  const feedDataFromStore = readStore()['feedData']
 
-  const fetchIt =  async() => {
+  const fetchIt =  async(feedSources, feedDataFromStore) => {
     const fetchPromises = feedSources.map(feedSrc => fetcher({ name: feedSrc.name, url: feedSrc.url }))
     const feedData = await Promise.all(fetchPromises)
-    const allfeedDataFlattened = feedData.flatMap(f => f)
-    setFeed(allfeedDataFlattened)
+    const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))
+    // set local storage
+    const all = [...feedDataFromStore, ...allfeedDataFlattened]
+    writeStore({ key: 'feedData', value: {fetchTime: Date.now(), data: all} })
+    setFeed(all)
+
   }
 
   useEffect(() => {
-    fetchIt()
+    if(feedDataFromStore && feedDataFromStore.fetchTime < (Date.now() + 60*60*3))
+      setFeed(feedDataFromStore.data.filter(d => d.id))
+    else
+      fetchIt(feedSources, feedDataFromStore)
   }, [])
 
   return (
