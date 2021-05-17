@@ -2,15 +2,25 @@
 const rssToJson = (feedXml, source) => {
   const xml = new window.DOMParser().parseFromString(feedXml, "text/xml")
   const items = Array.from(xml.querySelectorAll("item"));
-  const regex = /<!\[CDATA\[(.*)\]\]>/;
-  console.log(items[1])
-  return items.map((item, index) => ({
-    id: index,
-    title: item.querySelector('title').innerHTML.match(regex)[1],
-    link: item.querySelector('link').innerHTML,
-    description: item.querySelector('description').innerHTML.replaceAll('\n', '').match(regex)[1],
-    source
-  }))
+  if(items.length > 0) {
+    const regex = /<!\[CDATA\[(.*)\]\]>/;
+    return items.map((item, index) => ({
+      id: `${source}-${index}`,
+      title: item.querySelector('title').innerHTML.match(regex)[1],
+      link: item.querySelector('link').innerHTML,
+      description: item.querySelector('description').innerHTML.replaceAll('\n', '').match(regex)[1],
+      source
+    }))
+  } else {
+    const entries = Array.from(xml.querySelectorAll('entry'))
+    return entries.map((item, index) => ({
+      id: `${source}-${index}`,
+      title: item.querySelector('title').innerHTML,
+      link: item.querySelector('link').getAttribute('href'),
+      description: '',
+      source
+    }))
+  }
 }
 
 const fetchOpenGraph = async(feed) => {
@@ -40,12 +50,12 @@ const fetchViaProxy = async(url) => {
     return await response.text()
   }
 }
-const fetchFeed = async(url) => {
+const fetchFeed = async({ url, name }) => {
   // fetch feed
   const result = await fetchViaProxy(url)
 
   // convert to json
-  const feed = rssToJson(result, 'hackernews')
+  const feed = rssToJson(result, {url, name})
   // fetch og
   const feedWithOg = await fetchOpenGraph(feed)
   // return feed

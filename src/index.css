@@ -15,6 +15,14 @@ body {
   margin: 0 auto;
 }
 
+.source-tag {
+  border-radius: 2px;
+  background-color: #202020;
+  color: white;
+  padding: 5px;
+  display: inline-block;
+}
+
 /*Sidebar Nav*/
 .sidebar {
   width: 275px;
@@ -31,6 +39,10 @@ body {
   padding-right: 2rem;
 }
 
+.sidebar nav div {
+  margin-bottom: 10px;
+}
+
 .sidebar nav a {
   padding: 1rem;
   padding-left: 0;
@@ -44,14 +56,19 @@ button {
   padding: 1rem;
   padding-left: 0;
   text-decoration: none;
-  color: white;
+  color: #776b6b;
   font-size: 1rem;
   display: block;
-  background-color: #202020;
   border: none;
   width: 100%;
   border-radius: 2px;
   cursor: pointer;
+  transition-duration: 0.6s;
+}
+
+button:hover {
+  background-color: #e8e8e8;
+  transition-duration: 0.6s;
 }
 
 button:disabled {
@@ -60,15 +77,13 @@ button:disabled {
 
 /* Insta */
 .feed {
-  margin: 0 auto;
+  margin: 2rem auto;
   width: 500px;
 }
 
 .feed section {
-  min-height: 100px;
-  box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-  -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+  border: 1px rgb(219, 219, 219) solid;
+  margin-bottom: 1rem;
   border-radius: 2px;
 }
 
@@ -89,15 +104,11 @@ button:disabled {
 
 .feed section span {
   margin: 10px;
-  border-radius: 2px;
-  background-color: #202020;
-  color: white;
-  padding: 5px;
-  display: inline-block;
 }
 
+
 .feed section img {
-  width: 500px;
+  width: 100%;
 }
 
 .feed section .panel {
@@ -141,13 +152,14 @@ button:disabled {
 }
 
 input {
-  padding: 10px;
+  padding: 1rem;
   font-size: 1rem;
   border: 0.5px grey solid;
   border-radius: 2px;
   width: 100%;
   display: block;
   box-sizing: border-box;
+  margin-bottom: 15px;
   margin-top: 10px;
 }
 

@@ -6,27 +6,28 @@ const isValidUrl = url => {
     const urlParsed = new URL(url)
     return urlParsed
   } catch(e) {
-    console.log(e)
     return false
   }
 }
 
 const addFeedStore = ({ name, url }) => {
   const feedSources = readStore()['feedSources'] || []
-  const newFeedSource = {
+  const existingCopy = feedSources.filter(f => f.url === url)[0]
+  const feedSourcesWithoutOldValue = feedSources.filter(f => f.url !== url)
+  const newFeedSource = { ...existingCopy, ...{
     name: name.trim(),
     url: url.trim()
-  }
-  writeStore({ key: 'feedSources', value: [...feedSources, newFeedSource]})
+  }}
+  writeStore({ key: 'feedSources', value: [...feedSourcesWithoutOldValue, newFeedSource]})
   return true
 }
 
 const AddFeedDialog = ({ open, setOpen }) => {
-  const [url, setUrl] = useState(null)
-  const [name, setName] = useState(null)
+  const [url, setUrl] = useState('')
+  const [name, setName] = useState('')
   return <div className="dialog" style={{display: open ? 'block' : 'none'}}>
     <div className="dialog-content">
-      <h3><i onClick={() => setOpen(false)} class="lni lni-close"></i></h3>
+      <h3><i onClick={() => setOpen(false)} className="lni lni-close"></i></h3>
       <div className="dialog-body">
         <label htmlFor="feed-url">
           URL
