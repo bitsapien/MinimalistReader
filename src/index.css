@@ -22,6 +22,11 @@ body {
   position: fixed;
 }
 
+.sidebar h3 i {
+  font-size: 2rem;
+  margin-right: 10px;
+}
+
 .sidebar nav {
   padding-right: 2rem;
 }
@@ -35,7 +40,7 @@ body {
   display: block;
 }
 
-.sidebar nav button {
+button {
   padding: 1rem;
   padding-left: 0;
   text-decoration: none;
@@ -46,6 +51,11 @@ body {
   border: none;
   width: 100%;
   border-radius: 2px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: grey;
 }
 
 /* Insta */
@@ -96,4 +106,63 @@ body {
 
 .feed section .panel a {
   padding: 2rem;
+}
+
+/*Add Feed*/
+
+.dialog {
+  margin: 0;
+  position: fixed;
+  background-color: rgba(0,0,0,0.75);
+  height: 100vh;
+  width: 100vw;
+  z-index: 99;
+}
+
+.dialog .dialog-content {
+  width: 550px;
+  background-color: white;
+  position: relative;
+  margin: 2rem auto;
+  z-index: 100;
+  border-radius: 2px;
+}
+
+.dialog .dialog-content h3 {
+  padding: 10px;
+  border-bottom: 0.8px #202020 solid;
+}
+
+.dialog .dialog-content h3 .lni-close {
+  cursor: pointer;
+}
+.dialog .dialog-content .dialog-body {
+  padding: 10px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 0.5px grey solid;
+  border-radius: 2px;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+
+input:focus {
+  outline: none;
+  border-color: black;
+}
+
+label {
+  display: block;
+  font-size: 1rem;
+  color: grey;
+  margin-bottom: 10px;
+}
+
+label:focus-within {
+  color: black;
 }
