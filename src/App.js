@@ -24,8 +24,8 @@ function App() {
   const [feed, setFeed] = useState([])
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
 
-  const feedSources = readStore()['feedSources']
-  const feedDataFromStore = readStore()['feedData']
+  const feedSources = readStore()['feedSources'] || []
+  const feedDataFromStore = readStore()['feedData'] || []
 
   const fetchIt =  async(feedSources, feedDataFromStore) => {
     const fetchPromises = feedSources.map(feedSrc => fetcher({ name: feedSrc.name, url: feedSrc.url }))
@@ -39,7 +39,7 @@ function App() {
   }
 
   useEffect(() => {
-    if(feedDataFromStore && feedDataFromStore.fetchTime < (Date.now() + 60*60*3))
+    if(feedDataFromStore && feedDataFromStore.fetchTime < (Date.now() + 60*30))
       setFeed(feedDataFromStore.data.filter(d => d.id))
     else
       fetchIt(feedSources, feedDataFromStore)
