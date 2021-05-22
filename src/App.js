@@ -35,7 +35,7 @@ function App() {
     fetchAllSources(feedSourcesList).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
 
   const exportData = () =>
-    download(`minimalist-reader-dump-${Date.now()}.json`, { feedSources })
+    download(`minimalist-reader-dump-${Date.now()}.json`)
 
   // syncing feedSources to storage
   useEffect(() => {

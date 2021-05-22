@@ -1,3 +1,9 @@
+import sha256 from 'crypto-js/sha256';
+import Utf8 from 'crypto-js/enc-utf8'
+
+const generateId = data =>
+  sha256(Utf8.parse(unescape(encodeURIComponent((new XMLSerializer()).serializeToString(data))))).toString()
+
 
 const rssToJson = (feedXml, source) => {
   const xml = new window.DOMParser().parseFromString(feedXml, "text/xml")
@@ -5,7 +11,7 @@ const rssToJson = (feedXml, source) => {
   if(items.length > 0) {
     const regex = /<!\[CDATA\[(.*)\]\]>/;
     return items.map((item, index) => ({
-      id: `${source.name}-${item.querySelector('link').innerHTML.replace('/','-')}`,
+      id: generateId(item),
       title: item.querySelector('title').innerHTML.match(regex)[1],
       link: item.querySelector('link').innerHTML,
       description: item.querySelector('description').innerHTML.replaceAll('\n', '').match(regex)[1],
@@ -15,7 +21,7 @@ const rssToJson = (feedXml, source) => {
   } else {
     const entries = Array.from(xml.querySelectorAll('entry'))
     return entries.map((item, index) => ({
-      id: `${source.name}-${item.querySelector('link').getAttribute('href').replace('/','-')}`,
+      id: generateId(item),
       title: item.querySelector('title').innerHTML,
       link: item.querySelector('link').getAttribute('href'),
       description: '',
@@ -47,7 +53,6 @@ const getOpenGraph = async(feed) => {
 
 const proxyFetch = async(url) => {
   const proxy = 'http://localhost:8080/'
-  console.log(fetch)
   const response = await fetch(proxy + url)
   if(response.ok) {
     return await response.text()

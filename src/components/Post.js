@@ -1,25 +1,34 @@
-import { useState } from 'react'
-import { readStore, writeStore } from '../store'
+import { useState, useEffect } from 'react'
+import { writeStore } from '../store'
 import IconForUrl from './IconForUrl'
 
 
-const Post = ({ post }) => {
 
-  const [heart, setHeart] = useState(post.interactions && post.interactions.hearted)
+const Post = ({ interactionsFromStore, post }) => {
 
-  const toggleHeart = (heart) => {
-    const allFeed = readStore().feedData
-    const postInStore = allFeed.data.filter(p => (p.id === post.id && p.link === post.link))[0]
-    const feedInStoreWithoutPost = allFeed.data.filter(p => (p.id !== post.id && p.link !== post.link))
-    const interactions = { ...postInStore.interactions, ...{ heart: !heart } }
-    const newPostInStore = { ...postInStore, interactions}
-    writeStore({ key: 'feedData', value: { fetchTime: allFeed.fetchTime  ,data: [...feedInStoreWithoutPost, newPostInStore]}})
-    setHeart(!heart)
-  }
+  const interactionForPost = interactionsFromStore.filter(i => i.id === post.id)[0] || { id: post.id }
+  const [interaction, setInteraction] = useState(interactionForPost)
 
-  const heartStatus = heart ? 'lni lni-heart-filled' : 'lni lni-heart'
+  const [showNote, setShowNote] = useState(false)
 
-  const createPost = ({ title, openGraphData, source, link, interactions }) => (
+  // actions
+  const setNote = (note) =>
+    setInteraction({ ...interaction, note })
+
+  const toggleHeart = (heart) =>
+    setInteraction({ ...interaction, heart: !heart})
+
+
+  // sync to storage
+  useEffect(() => {
+    const interactionsFromStoreWithoutThis = interactionsFromStore.filter(is => is.id !== post.id)
+    writeStore({ key: 'interactions', value: [ ...interactionsFromStoreWithoutThis, interaction]})
+
+  }, [interaction, interactionsFromStore, post.id])
+
+  const heartStatus = interaction.heart ? 'lni lni-heart-filled text-black' : 'lni lni-heart'
+
+  const createPost = ({ id, title, openGraphData, source, link, interactions }) => (
     <section>
       <h3>
         <a href={link} rel="noreferrer" target="_blank" title={link}>
@@ -31,7 +40,11 @@ const Post = ({ post }) => {
       </span>
       {openGraphData['og:image'] ? (<img src={openGraphData['og:image']} alt={title} />) : ''}
     <div className="panel">
-      <button onClick={() => toggleHeart(heart)}> <i className={heartStatus}></i> </button>
+      <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
+      <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
+    </div>
+    <div className={`note ${showNote ? 'active': ''}`}>
+      <textarea onChange={event => setNote(event.target.value)} rows="1">{interaction.note}</textarea>
     </div>
     </section>
   )
