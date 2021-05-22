@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { readStore, writeStore } from '../store'
 
 const isValidUrl = url => {
   try {
@@ -10,19 +9,7 @@ const isValidUrl = url => {
   }
 }
 
-const addFeedStore = ({ name, url }) => {
-  const feedSources = readStore()['feedSources'] || []
-  const existingCopy = feedSources.filter(f => f.url === url)[0]
-  const feedSourcesWithoutOldValue = feedSources.filter(f => f.url !== url)
-  const newFeedSource = { ...existingCopy, ...{
-    name: name.trim(),
-    url: url.trim()
-  }}
-  writeStore({ key: 'feedSources', value: [...feedSourcesWithoutOldValue, newFeedSource]})
-  return true
-}
-
-const AddFeedDialog = ({ open, setOpen }) => {
+const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
   const [url, setUrl] = useState('')
   const [name, setName] = useState('')
   return <div className="dialog" style={{display: open ? 'block' : 'none'}}>
@@ -37,7 +24,7 @@ const AddFeedDialog = ({ open, setOpen }) => {
           Name
           <input id="feed-name" type="text" value={name} onChange={(e) => setName(e.target.value)}/>
         </label>
-        <button disabled={!(isValidUrl(url) && name)} onClick={() => addFeedStore({ name, url }) && setOpen(false)}> Add </button>
+        <button disabled={!(isValidUrl(url) && name)} onClick={() => addFeedSource({ name, url }) && setOpen(false)}> Add </button>
       </div>
     </div>
   </div>

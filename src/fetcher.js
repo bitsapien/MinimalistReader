@@ -52,17 +52,15 @@ const fetchViaProxy = async(url) => {
     return await response.text()
   }
 }
-const fetchFeed = async({ url, name }) => {
+const main = async({ url, name }) => {
   // fetch feed
   const result = await fetchViaProxy(url)
-
   // convert to json
   const feed = rssToJson(result, {url, name})
   // fetch og
   const feedWithOg = await fetchOpenGraph(feed)
   // return feed
   return feedWithOg
-
 }
 
-export default fetchFeed
+export default main

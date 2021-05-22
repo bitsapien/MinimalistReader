@@ -1,53 +1,56 @@
 import { useState, useEffect } from 'react'
 import fetcher from './fetcher'
-import Post from './components/Post'
+import Feed from './components/Feed'
 import AddFeedDialog from './components/AddFeedDialog'
+import FeedSourceList from './components/FeedSourceList'
 import { readStore, writeStore } from './store'
 
+// Read from store
 
-const getIcon = url => {
-  if(url.includes('https://www.youtube.com'))
-    return <i class="lni lni-youtube"></i>
-}
+const FEED_SOURCES = 'feedSources'
+const FEED_DATA = 'feedData'
 
-const FeedSourceList = ({ sources }) => {
-
-  return sources.map((feedSrc, index) => (
-    <div>
-      <div key={index} className="source-tag">{getIcon(feedSrc.url)} {feedSrc.name} </div>
-    </div>
-  ))
-
-}
+const feedSourcesFromStore = readStore()[FEED_SOURCES] || []
+const feedDataFromStore = readStore()[FEED_DATA] || { data: [] }
 
 function App() {
-  const [feed, setFeed] = useState([])
+  const [feed, setFeed] = useState(feedDataFromStore.data)
+  const [feedSources, setFeedSources] = useState(feedSourcesFromStore)
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
 
-  const feedSources = readStore()['feedSources'] || []
-  const feedDataFromStore = readStore()['feedData'] || []
 
-  const fetchIt =  async(feedSources, feedDataFromStore) => {
-    const fetchPromises = feedSources.map(feedSrc => fetcher({ name: feedSrc.name, url: feedSrc.url }))
-    const feedData = await Promise.all(fetchPromises)
-    const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))
-    // set local storage
-    const all = [...feedDataFromStore, ...allfeedDataFlattened]
-    writeStore({ key: 'feedData', value: {fetchTime: Date.now(), data: all} })
-    setFeed(all)
-
+  // actions
+  const addFeedSource = ({ url, name }) => {
+    if(feedSources.filter(fs => fs.url === url).length === 0) {
+      setFeedSources([...feedSources, { url, name }])
+      // fetch new feeds from feed source
+      fetchFeed([{ url, name }]).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
+    } else {
+      console.log('already following')
+    }
+    setOpenAddFeedDialog(false)
   }
 
+  const fetchFeed =  async(feedSources) => {
+    const fetchPromises = feedSources.map(feedSrc => fetcher(feedSrc))
+    const feedData = await Promise.all(fetchPromises)
+    const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))
+    return allfeedDataFlattened
+  }
+
+  // syncing feedSources to storage
   useEffect(() => {
-    if(feedDataFromStore && feedDataFromStore.fetchTime < (Date.now() + 60*30))
-      setFeed(feedDataFromStore.data.filter(d => d.id))
-    else
-      fetchIt(feedSources, feedDataFromStore)
-  }, [])
+    writeStore({ key: FEED_SOURCES, value: feedSources })
+  }, [feedSources])
+
+  // syncing feedData with store
+  useEffect(() => {
+    writeStore({ key: FEED_DATA, value: { fetchtime: Date.now(), data: feed } })
+  }, [feed])
 
   return (
     <div>
-      <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog}/>
+      <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog} addFeedSource={addFeedSource}/>
       <div className="content">
         <div className="sidebar">
           <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
@@ -57,7 +60,7 @@ function App() {
           </nav>
         </div>
         <div className="feed">
-          {feed.map((post, index) => <Post key={index} post={post} />)}
+          <Feed feed={feed}/>
         </div>
       </div>
     </div>

@@ -1,11 +1,6 @@
 import { useState } from 'react'
 import { readStore, writeStore } from '../store'
-
-const getIcon = url => {
-  if(url.includes('https://www.youtube.com'))
-    return <i class="lni lni-youtube"></i>
-}
-
+import IconForUrl from './IconForUrl'
 
 
 const Post = ({ post }) => {
@@ -31,7 +26,9 @@ const Post = ({ post }) => {
           <i className="lni lni-link"></i> {title}
         </a>
       </h3>
-      <span className="source-tag"> {getIcon(source.url)} {source.name} </span>
+      <span className="source-tag">
+        <IconForUrl url={source.url} /> {source.name}
+      </span>
       {openGraphData['og:image'] ? (<img src={openGraphData['og:image']} alt={title} />) : ''}
     <div className="panel">
       <button onClick={() => toggleHeart(heart)}> <i className={heartStatus}></i> </button>
