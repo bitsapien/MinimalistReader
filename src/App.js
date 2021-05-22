@@ -4,6 +4,7 @@ import Feed from './components/Feed'
 import AddFeedDialog from './components/AddFeedDialog'
 import FeedSourceList from './components/FeedSourceList'
 import { readStore, writeStore } from './store'
+import download from './download'
 
 // Read from store
 
@@ -31,7 +32,10 @@ function App() {
   }
 
   const fetchFeedAndSet = (feedSourcesList) =>
-      fetchAllSources(feedSourcesList).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
+    fetchAllSources(feedSourcesList).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
+
+  const exportData = () =>
+    download(`minimalist-reader-dump-${Date.now()}.json`, { feedSources })
 
   // syncing feedSources to storage
   useEffect(() => {
@@ -57,6 +61,7 @@ function App() {
               <FeedSourceList sources={feedSources}/>
               <button onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </button>
               <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> </a>
+              <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
             </nav>
           </div>
         </header>
