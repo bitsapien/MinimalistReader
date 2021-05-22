@@ -25,9 +25,9 @@ const rssToJson = (feedXml, source) => {
   }
 }
 
-const fetchOpenGraph = async(feed) => {
+const getOpenGraph = async(feed) => {
   const feedy = await feed.map(async(item) => {
-    const page = await fetchViaProxy(item.link)
+    const page = await proxyFetch(item.link)
     const pageHTML = new window.DOMParser().parseFromString(page, 'text/html')
     const openGraphData = Array.from(pageHTML.querySelectorAll('meta'))
       .filter(metaTag => metaTag.getAttribute('property') && metaTag.getAttribute('property').includes('og:'))
@@ -45,22 +45,31 @@ const fetchOpenGraph = async(feed) => {
   return feedy
 }
 
-const fetchViaProxy = async(url) => {
+const proxyFetch = async(url) => {
   const proxy = 'http://localhost:8080/'
+  console.log(fetch)
   const response = await fetch(proxy + url)
   if(response.ok) {
     return await response.text()
   }
 }
-const main = async({ url, name }) => {
+
+const fetchBySource = async({ url, name }) => {
   // fetch feed
-  const result = await fetchViaProxy(url)
+  const result = await proxyFetch(url)
   // convert to json
   const feed = rssToJson(result, {url, name})
   // fetch og
-  const feedWithOg = await fetchOpenGraph(feed)
+  const feedWithOg = await getOpenGraph(feed)
   // return feed
   return feedWithOg
 }
 
-export default main
+const fetchAllSources =  async(feedSources) => {
+  const fetchPromises = feedSources.map(feedSrc => fetchBySource(feedSrc))
+  const feedData = await Promise.all(fetchPromises)
+  const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))
+  return allfeedDataFlattened
+}
+
+export { fetchAllSources }

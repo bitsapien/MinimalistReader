@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import fetcher from './fetcher'
+import { fetchAllSources } from './fetcher'
 import Feed from './components/Feed'
 import AddFeedDialog from './components/AddFeedDialog'
 import FeedSourceList from './components/FeedSourceList'
@@ -23,20 +23,15 @@ function App() {
   const addFeedSource = ({ url, name }) => {
     if(feedSources.filter(fs => fs.url === url).length === 0) {
       setFeedSources([...feedSources, { url, name }])
-      // fetch new feeds from feed source
-      fetchFeed([{ url, name }]).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
+      fetchFeedAndSet([{ url, name }])
     } else {
       console.log('already following')
     }
     setOpenAddFeedDialog(false)
   }
 
-  const fetchFeed =  async(feedSources) => {
-    const fetchPromises = feedSources.map(feedSrc => fetcher(feedSrc))
-    const feedData = await Promise.all(fetchPromises)
-    const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))
-    return allfeedDataFlattened
-  }
+  const fetchFeedAndSet = (feedSourcesList) =>
+      fetchAllSources(feedSourcesList).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
 
   // syncing feedSources to storage
   useEffect(() => {
@@ -45,7 +40,10 @@ function App() {
 
   // syncing feedData with store
   useEffect(() => {
-    writeStore({ key: FEED_DATA, value: { fetchtime: Date.now(), data: feed } })
+    const deduplicatedFeed = feed.filter((post, index, self) =>
+      index === self.findIndex(p => p.id === post.id)
+    )
+    writeStore({ key: FEED_DATA, value: { fetchtime: Date.now(), data: deduplicatedFeed } })
   }, [feed])
 
   return (
@@ -58,7 +56,7 @@ function App() {
             <nav>
               <FeedSourceList sources={feedSources}/>
               <button onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </button>
-              <a href="/#" > Refresh </a>
+              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> </a>
             </nav>
           </div>
         </header>
