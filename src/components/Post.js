@@ -18,6 +18,9 @@ const Post = ({ interactionsFromStore, post }) => {
   const toggleHeart = (heart) =>
     setInteraction({ ...interaction, heart: !heart})
 
+  const toggleBookmark = (bookmark) =>
+    setInteraction({ ...interaction, bookmark: !bookmark})
+
 
   // sync to storage
   useEffect(() => {
@@ -27,6 +30,7 @@ const Post = ({ interactionsFromStore, post }) => {
   }, [interaction, interactionsFromStore, post.id])
 
   const heartStatus = interaction.heart ? 'lni lni-heart-filled text-black' : 'lni lni-heart'
+  const bookmarkStatus = interaction.bookmark ? 'lni lni-bookmark text-black' : 'lni lni-bookmark'
 
   const createPost = ({ id, title, openGraphData, source, link, interactions }) => (
     <section>
@@ -42,9 +46,10 @@ const Post = ({ interactionsFromStore, post }) => {
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
+      <button onClick={() => toggleBookmark(interaction.bookmark)}> <i className={bookmarkStatus}></i> </button>
     </div>
     <div className={`note ${showNote ? 'active': ''}`}>
-      <textarea onChange={event => setNote(event.target.value)} rows="1">{interaction.note}</textarea>
+      <textarea value={interaction.note} onChange={event => setNote(event.target.value)} rows="1"></textarea>
     </div>
     </section>
   )
