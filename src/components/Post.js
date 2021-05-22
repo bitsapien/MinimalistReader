@@ -3,12 +3,17 @@ import { writeStore } from '../store'
 import IconForUrl from './IconForUrl'
 
 
+const richContent = og => {
+  if(og['og:video:url'] && og['og:site_name'] === 'YouTube')
+    return (<iframe src={og['og:video:url']} height="420" allow="fullscreen;" title={og['og:title']}></iframe>)
+  if(og['og:image'])
+    return (<img src={og['og:image']} alt={og['og:title']} />)
+}
 
 const Post = ({ interactionsFromStore, post }) => {
 
   const interactionForPost = interactionsFromStore.filter(i => i.id === post.id)[0] || { id: post.id }
   const [interaction, setInteraction] = useState(interactionForPost)
-
   const [showNote, setShowNote] = useState(false)
 
   // actions
@@ -42,7 +47,7 @@ const Post = ({ interactionsFromStore, post }) => {
       <span className="source-tag">
         <IconForUrl url={source.url} /> {source.name}
       </span>
-      {openGraphData['og:image'] ? (<img src={openGraphData['og:image']} alt={title} />) : ''}
+      {richContent(openGraphData)}
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>

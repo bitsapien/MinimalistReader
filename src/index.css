@@ -114,6 +114,11 @@ main {
   margin: 10px;
 }
 
+.feed section iframe {
+  width: 100%;
+  display: block;
+}
+
 
 .feed section img {
   width: 100%;
