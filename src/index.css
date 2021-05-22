@@ -10,9 +10,9 @@ body {
 
 .content {
   display: flex;
-  flex-direction: column;
   width: 1050px;
   margin: 0 auto;
+  align-items: stretch;
 }
 
 .source-tag {
@@ -24,19 +24,20 @@ body {
 }
 
 /*Sidebar Nav*/
+header {
+  max-width: 275px;
+  min-height: 100%;
+  position: relative;
+  flex-grow: 1;
+}
+
 .sidebar {
-  width: 275px;
-  height: 100%;
   position: fixed;
 }
 
 .sidebar h3 i {
   font-size: 2rem;
   margin-right: 10px;
-}
-
-.sidebar nav {
-  padding-right: 2rem;
 }
 
 .sidebar nav div {
@@ -76,6 +77,11 @@ button:disabled {
 }
 
 /* Insta */
+main {
+  display: flex;
+
+}
+
 .feed {
   margin: 2rem auto;
   width: 500px;

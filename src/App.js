@@ -52,16 +52,21 @@ function App() {
     <div>
       <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog} addFeedSource={addFeedSource}/>
       <div className="content">
-        <div className="sidebar">
-          <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
-          <nav>
-            <FeedSourceList sources={feedSources}/>
-            <button onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </button>
-          </nav>
-        </div>
-        <div className="feed">
-          <Feed feed={feed}/>
-        </div>
+        <header>
+          <div className="sidebar">
+            <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
+            <nav>
+              <FeedSourceList sources={feedSources}/>
+              <button onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </button>
+              <a href="/#" > Refresh </a>
+            </nav>
+          </div>
+        </header>
+        <main>
+          <div className="feed">
+            <Feed feed={feed}/>
+          </div>
+        </main>
       </div>
     </div>
   )
