@@ -46,7 +46,7 @@ const Post = ({ interactionsFromStore, post }) => {
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
-      <button onClick={() => toggleBookmark(interaction.bookmark)}> <i className={bookmarkStatus}></i> </button>
+      <button className="bookmark" onClick={() => toggleBookmark(interaction.bookmark)}> <i className={bookmarkStatus}></i> </button>
     </div>
     <div className={`note ${showNote ? 'active': ''}`}>
       <textarea value={interaction.note} onChange={event => setNote(event.target.value)} rows="1"></textarea>
