@@ -44,7 +44,7 @@ header {
   margin-bottom: 0.25rem;
 }
 
-.sidebar nav a {
+nav a {
   padding: 1rem;
   padding-left: 0;
   text-decoration: none;
@@ -203,6 +203,18 @@ main {
 
 .text-black {
   color: black;
+}
+
+/* Rightbar */
+.rightbar {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.rightbar nav {
+  margin-left: 3rem;
+  position: fixed;
 }
 
 input {

@@ -60,14 +60,18 @@ function App() {
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
               <FeedSourceList sources={feedSources}/>
-              <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
-              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> Reload </a>
             </nav>
           </div>
         </header>
         <main>
           <div className="feed">
             <Feed feed={feed}/>
+          </div>
+          <div className="rightbar">
+            <nav>
+              <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
+              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> Reload </a>
+            </nav>
           </div>
         </main>
       </div>
