@@ -58,8 +58,8 @@ function App() {
           <div className="sidebar">
             <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
             <nav>
-              <FeedSourceList sources={feedSources}/>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
+              <FeedSourceList sources={feedSources}/>
               <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
               <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> Reload </a>
             </nav>

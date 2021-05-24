@@ -80,4 +80,4 @@ const fetchAllSources =  async(feedSources) => {
   return allfeedDataFlattened
 }
 
-export { fetchAllSources }
+export { fetchAllSources, PROXY_URL }
