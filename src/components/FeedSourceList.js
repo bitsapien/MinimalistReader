@@ -5,9 +5,7 @@ const FeedSourceList = ({ sources }) => {
 
   return sources.map((feedSrc, index) => (
     <div key={index}>
-      <div className="source-tag">
-        <IconForUrl url={feedSrc.url}/> {feedSrc.name}
-      </div>
+      <IconForUrl url={feedSrc.url} name={feedSrc.name}/>
     </div>
   ))
 

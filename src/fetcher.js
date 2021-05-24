@@ -14,7 +14,7 @@ const rssToJson = (feedXml, source) => {
       id: generateId(item),
       title: item.querySelector('title').innerHTML.match(regex)[1],
       link: item.querySelector('link').innerHTML,
-      description: item.querySelector('description').innerHTML.replaceAll('\n', '').match(regex)[1],
+      description: '',
       source,
       pullDateTime: Date.now()
     }))
