@@ -1,35 +1,36 @@
 import sha256 from 'crypto-js/sha256';
 import Utf8 from 'crypto-js/enc-utf8'
+import Parser from 'rss-parser'
 
 const generateId = data =>
   sha256(Utf8.parse(unescape(encodeURIComponent((new XMLSerializer()).serializeToString(data))))).toString()
 
+const PROXY_URL = 'http://localhost:8080/'
 
-const rssToJson = (feedXml, source) => {
-  const xml = new window.DOMParser().parseFromString(feedXml, "text/xml")
-  const items = Array.from(xml.querySelectorAll("item"));
-  if(items.length > 0) {
-    const regex = /<!\[CDATA\[(.*)\]\]>/;
-    return items.map((item, index) => ({
-      id: generateId(item),
-      title: item.querySelector('title').innerHTML.match(regex)[1],
-      link: item.querySelector('link').innerHTML,
-      description: '',
-      source,
-      pullDateTime: Date.now()
-    }))
-  } else {
-    const entries = Array.from(xml.querySelectorAll('entry'))
-    return entries.map((item, index) => ({
-      id: generateId(item),
-      title: item.querySelector('title').innerHTML,
-      link: item.querySelector('link').getAttribute('href'),
-      description: '',
-      source,
-      pullDateTime: Date.now()
-    }))
-  }
+function timeoutPromise(ms, promise) {
+  return new Promise((resolve, reject) => {
+    const timeoutId = setTimeout(() => {
+      reject(new Error("promise timeout"))
+    }, ms);
+    promise.then(
+      (res) => {
+        clearTimeout(timeoutId);
+        resolve(res);
+      },
+      (err) => {
+        clearTimeout(timeoutId);
+        reject(err);
+      }
+    );
+  })
 }
+
+const addMetadata = (items, source) =>
+  items.map(item => ({
+    ...item,
+    id: item.id || item.guid || generateId(item.link + source.url + item.pubDate,toString()),
+    source
+  }))
 
 const getOpenGraph = async(feed) => {
   const feedy = await feed.map(async(item) => {
@@ -43,27 +44,29 @@ const getOpenGraph = async(feed) => {
         return obj
       },{})
 
-    const itemNew = Object.assign({}, item)
-    itemNew.openGraphData = openGraphData
-
-    return itemNew
+    return { ...item, openGraphData }
   })
   return feedy
 }
 
 const proxyFetch = async(url) => {
-  const proxy = 'http://localhost:8080/'
-  const response = await fetch(proxy + url)
-  if(response.ok) {
-    return await response.text()
+  const TIMEOUT = 10000
+  try {
+    const response = await timeoutPromise(TIMEOUT, fetch(PROXY_URL + url))
+    if(response.ok) {
+      return await response.text()
+    }
+  } catch(e) {
+    console.log('proxyFetch error: ', e)
+    return ''
   }
 }
 
 const fetchBySource = async({ url, name }) => {
   // fetch feed
-  const result = await proxyFetch(url)
+  const result = await new Parser().parseURL(PROXY_URL + url)
   // convert to json
-  const feed = rssToJson(result, {url, name})
+  const feed = addMetadata(result.items, { url, name })
   // fetch og
   const feedWithOg = await getOpenGraph(feed)
   // return feed
