@@ -1,5 +1,5 @@
 
-const IconForUrl = ({ url, name }) => {
+const SourceTag = ({ url, name }) => {
   if(url.includes('https://www.youtube.com'))
     return <span className="source-tag"> <i className="lni lni-youtube"></i> {name} </span>
   if(url.includes('medium.com'))
@@ -9,4 +9,4 @@ const IconForUrl = ({ url, name }) => {
   return <span></span>
 }
 
-export default IconForUrl
+export default SourceTag

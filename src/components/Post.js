@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { writeStore } from '../store'
-import IconForUrl from './IconForUrl'
+import SourceTag from './SourceTag'
 
 
 const richContent = og => {
@@ -44,7 +44,7 @@ const Post = ({ interactionsFromStore, post }) => {
           <i className="lni lni-link"></i> {title}
         </a>
       </h3>
-      <IconForUrl url={source.url} name={source.name}/>
+      <SourceTag url={source.url} name={source.name}/>
       {richContent(openGraphData)}
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>

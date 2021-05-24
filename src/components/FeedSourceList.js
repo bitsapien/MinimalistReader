@@ -1,11 +1,11 @@
-import IconForUrl from './IconForUrl'
+import SourceTag from './SourceTag'
 
 
 const FeedSourceList = ({ sources }) => {
 
   return sources.map((feedSrc, index) => (
     <div key={index}>
-      <IconForUrl url={feedSrc.url} name={feedSrc.name}/>
+      <SourceTag url={feedSrc.url} name={feedSrc.name}/>
     </div>
   ))
 
