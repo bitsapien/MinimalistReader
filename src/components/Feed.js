@@ -5,14 +5,17 @@ import LazyLoad from 'react-lazyload'
 const INTERACTIONS = 'interactions'
 const interactionsFromStore = readStore()[INTERACTIONS] || []
 
+const sortByLatestFirst = (a, b) => ((new Date(b.isoDate)) - (new Date(a.isoDate)))
 
 const Feed = ({feed}) => {
 
+  const sortedFeed = feed.sort(sortByLatestFirst)
+
   return (
   <div>
-    {feed.map((post, index) => (
-      <LazyLoad>
-        <Post key={index} post={post} interactionsFromStore={interactionsFromStore}/>
+    {sortedFeed.map((post, index) => (
+      <LazyLoad key={index}>
+        <Post post={post} interactionsFromStore={interactionsFromStore}/>
       </LazyLoad>
     ))}
     <section className="you-are-done">
