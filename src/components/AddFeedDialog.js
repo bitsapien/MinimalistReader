@@ -18,7 +18,11 @@ const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
 
   const setAndResolveURL = async(value) => {
     setUrl(value)
-    isValidUrl(value) && setName((await new Parser().parseURL(PROXY_URL + value)).title)
+    try {
+      isValidUrl(value) && setName((await new Parser().parseURL(PROXY_URL + value)).title)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return <div className="dialog" style={{display: open ? 'block' : 'none'}}>

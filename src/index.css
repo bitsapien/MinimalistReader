@@ -15,6 +15,17 @@ body {
   align-items: stretch;
 }
 
+/* Welcome Page */
+.welcome-page {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.welcome-page button {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
 .source-tag {
   border-radius: 2px;
   background-color: #202020;

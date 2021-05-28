@@ -7,6 +7,8 @@ import CategoryList from './components/CategoryList'
 import { collectCategories } from './categories'
 import { readStore, writeStore } from './store'
 import download from './download'
+import WelcomePage from './components/WelcomePage'
+import Logo from './components/Logo'
 
 // Read from store
 
@@ -21,7 +23,6 @@ function App() {
   const [feedSources, setFeedSources] = useState(feedSourcesFromStore)
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
   const [filters, setFilters] = useState([])
-
 
   // actions
   const addFeedSource = ({ url, name }) => {
@@ -76,13 +77,17 @@ function App() {
     writeStore({ key: FEED_DATA, value: { fetchtime: Date.now(), data: deduplicatedFeed } })
   }, [feed])
 
+  // Show welcome screen if no data
+  if(feedSources.length === 0)
+    return <WelcomePage setFeedSources={setFeedSources} fetchFeedAndSet={fetchFeedAndSet} />
+
   return (
     <div>
       <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog} addFeedSource={addFeedSource}/>
       <div className="content">
         <header>
           <div className="sidebar">
-            <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
+            <Logo />
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
               <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource} handleFilter={filterBySource} filters={filters}/>
