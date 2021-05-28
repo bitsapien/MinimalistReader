@@ -53,6 +53,7 @@ nav a {
   display: block;
 }
 
+
 button {
   padding: 1rem;
   padding-left: 0;
@@ -74,6 +75,18 @@ button:hover {
 
 button:disabled {
   background-color: grey;
+}
+
+button.delete {
+  background: none;
+  width: auto;
+  padding: 0;
+  padding-left: 0.3rem;
+  color: #000;
+}
+
+.feed-source {
+  display: flex;
 }
 
 /* Insta */

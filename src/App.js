@@ -37,6 +37,12 @@ function App() {
   const exportData = () =>
     download(`minimalist-reader-dump-${Date.now()}.json`)
 
+  const deleteFeedSource = ({ name, url }) => {
+    const response = window.confirm(`Are you sure you want to delete - ${name} ?`)
+    if(response)
+      setFeedSources(feedSources.filter(feedSrc => feedSrc.url !== url))
+  }
+
   // syncing feedSources to storage
   useEffect(() => {
     writeStore({ key: FEED_SOURCES, value: feedSources })
@@ -59,7 +65,7 @@ function App() {
             <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
-              <FeedSourceList sources={feedSources}/>
+              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource}/>
             </nav>
           </div>
         </header>
