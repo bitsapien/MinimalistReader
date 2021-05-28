@@ -22,6 +22,10 @@ body {
   padding: 5px;
   display: inline-block;
   cursor: pointer;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .category-tag {
@@ -32,6 +36,10 @@ body {
   display: inline-block;
   margin: 0.1rem;
   cursor: pointer;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .active .category-tag {
@@ -49,6 +57,7 @@ header {
 
 .sidebar {
   position: fixed;
+  max-width: 275px;
 }
 
 .sidebar h3 i {
