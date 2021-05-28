@@ -89,6 +89,7 @@ main {
 
 /* Post */
 
+
 .feed section {
   border: 1px rgb(219, 219, 219) solid;
   margin-bottom: 1rem;
@@ -120,8 +121,14 @@ main {
 }
 
 
+.feed section img.loading {
+  opacity: 0;
+}
+
 .feed section img {
   width: 100%;
+  transition: opacity 1s;
+  opacity: 1;
 }
 
 .feed section .panel {
@@ -169,6 +176,12 @@ main {
   outline: none;
 }
 
+section.you-are-done {
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  padding: 2rem;
+}
 /*Add Feed*/
 
 .dialog {

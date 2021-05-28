@@ -1,13 +1,24 @@
 import { useState, useEffect } from 'react'
 import { writeStore } from '../store'
 import SourceTag from './SourceTag'
+import LazyLoad from 'react-lazyload'
 
 
-const richContent = og => {
+const RichContent = ({ og }) => {
+  const [ isLoading, setIsLoading ] = useState(true)
   //if(og['og:video:url'] && og['og:site_name'] === 'YouTube')
    // return (<iframe src={og['og:video:url']} height="420" allow="fullscreen;" title={og['og:title']}></iframe>)
   if(og['og:image'])
-    return (<img src={og['og:image']} alt={og['og:title']} />)
+    return (
+      <div>
+        <LazyLoad offset={100} once>
+        <img className={isLoading ? 'loading' : ''} src={og['og:image']} alt={og['og:title']} onLoad={() => setIsLoading(false)}/>
+        </LazyLoad>
+      </div>
+      )
+
+
+  return null
 }
 
 const Post = ({ interactionsFromStore, post }) => {
@@ -45,7 +56,7 @@ const Post = ({ interactionsFromStore, post }) => {
         </a>
       </h3>
       <SourceTag url={source.url} name={source.name}/>
-      {richContent(openGraphData)}
+      <RichContent og={openGraphData}/>
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
