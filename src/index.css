@@ -30,8 +30,8 @@ body {
 
 .category-tag {
   border-radius: 2px;
-  background-color: #202020;
-  color: white;
+  background-color: white;
+  color: #111;
   padding: 5px;
   display: inline-block;
   margin: 0.1rem;
@@ -40,6 +40,7 @@ body {
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
+  border: #ccc solid 1px;
 }
 
 .active .category-tag {
@@ -186,7 +187,7 @@ main {
 .feed section .panel button {
   display: inline-block;
   font-size: 1.3rem;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 0.5rem;
   width: auto;
   background-color: rgba(0,0,0,0);
 }
@@ -224,6 +225,12 @@ section.you-are-done {
   text-align: center;
   font-size: 1rem;
   padding: 2rem;
+}
+
+.feed section .time-ago {
+  margin: 0 0 1rem 1rem;
+  font-size: 0.8rem;
+  color: #2f2f2f;
 }
 /*Add Feed*/
 

@@ -4,6 +4,7 @@ import SourceTag from './SourceTag'
 import LazyLoad from 'react-lazyload'
 import { humanCategory } from '../categories'
 import CategoryTag from './CategoryTag'
+import { timeSince } from '../time'
 
 
 const RichContent = ({ og }) => {
@@ -70,6 +71,7 @@ const Post = ({ interactionsFromStore, post }) => {
     <div className={`note ${showNote ? 'active': ''}`}>
       <textarea value={interaction.note} onChange={event => setNote(event.target.value)} rows="1"></textarea>
     </div>
+    <div className={'time-ago'}> {timeSince(new Date(post.isoDate))} ago </div>
     </section>
   )
 
