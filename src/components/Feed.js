@@ -17,7 +17,7 @@ const Feed = ({feed, filters}) => {
   return (
   <div>
     {sortedAndFilteredFeed.map((post, index) => (
-      <LazyLoad key={index}>
+      <LazyLoad key={index} offset={200}>
         <Post post={post} interactionsFromStore={interactionsFromStore}/>
       </LazyLoad>
     ))}
