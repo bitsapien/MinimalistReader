@@ -198,22 +198,23 @@ main {
 
 .feed section .note.active {
   display: block;
-  padding: 1rem;
   padding-top: 0;
   min-height: 100px;
-  transition-duration: 1s;
+  margin-bottom: 10px;
 }
 
 .feed section .note textarea {
+  display: block;
   width: 100%;
-  background-color: #E8E8E8;
+  background-color: #eaeaea;
   font-family: inherit;
   border: none;
   border-radius: 2px;
   resize: none;
-  padding: 0.5rem;
+  padding: 1rem;
   box-sizing: border-box;
   height: 100px;
+  transition: height 2s;
 }
 
 .feed section .note textarea:focus {

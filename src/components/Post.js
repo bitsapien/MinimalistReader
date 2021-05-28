@@ -64,7 +64,7 @@ const Post = ({ interactionsFromStore, post }) => {
         <CategoryTag name={humanCategory(post).humanised} />
       )}
     <div className="panel">
-      <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
+      <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-text-align-justify'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
       <button className="bookmark" onClick={() => toggleBookmark(interaction.bookmark)}> <i className={bookmarkStatus}></i> </button>
     </div>
