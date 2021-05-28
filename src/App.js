@@ -9,6 +9,7 @@ import { readStore, writeStore } from './store'
 import download from './download'
 import WelcomePage from './components/WelcomePage'
 import Logo from './components/Logo'
+import Loader from './components/Loader'
 
 // Read from store
 
@@ -20,6 +21,7 @@ const feedDataFromStore = readStore()[FEED_DATA] || { data: [] }
 
 function App() {
   const [feed, setFeed] = useState(feedDataFromStore.data)
+  const [feedLoading, setFeedLoading] = useState(false)
   const [feedSources, setFeedSources] = useState(feedSourcesFromStore)
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
   const [filters, setFilters] = useState([])
@@ -35,8 +37,13 @@ function App() {
     setOpenAddFeedDialog(false)
   }
 
-  const fetchFeedAndSet = (feedSourcesList) =>
-    fetchAllSources(feedSourcesList).then(data => setFeed(([...feed, ...data]).filter(d => d.id)))
+  const fetchFeedAndSet = (feedSourcesList) => {
+    setFeedLoading(true)
+    fetchAllSources(feedSourcesList).then(data => {
+      setFeed(([...feed, ...data]).filter(d => d.id))
+      setFeedLoading(false)
+    })
+  }
 
   const exportData = () =>
     download(`minimalist-reader-dump-${Date.now()}.json`)
@@ -103,7 +110,9 @@ function App() {
           <div className="rightbar">
             <nav>
               <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
-              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh"> <i className="lni lni-reload"></i> Reload </a>
+              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh">
+                {feedLoading ? <Loader/> : <i className="lni lni-reload"></i>} Reload
+              </a>
             </nav>
           </div>
         </main>
