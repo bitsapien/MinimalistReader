@@ -1,5 +1,7 @@
 const humanCategory = (post) => {
-  const type = post.openGraphData['og:type']
+  const type = post.openGraphData['og:type'] && post.openGraphData['og:type'].toLowerCase()
+  if(!type)
+    return undefined
   if(type === 'object' && post.openGraphData['og:site_name'] === 'GitHub')
     return {
       filters: [
