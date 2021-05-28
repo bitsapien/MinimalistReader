@@ -18,6 +18,7 @@ function App() {
   const [feed, setFeed] = useState(feedDataFromStore.data)
   const [feedSources, setFeedSources] = useState(feedSourcesFromStore)
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
+  const [filters, setFilters] = useState([])
 
 
   // actions
@@ -43,6 +44,13 @@ function App() {
       setFeedSources(feedSources.filter(feedSrc => feedSrc.url !== url))
   }
 
+  const filterBySource = (feedSrc) => {
+    if(filters.filter(f => f.value === feedSrc.url).length > 0)
+      setFilters(filters.filter(f => f.value !== feedSrc.url))
+    else
+      setFilters([ ...filters, { name: "source.url", value: feedSrc.url} ])
+  }
+
   // syncing feedSources to storage
   useEffect(() => {
     writeStore({ key: FEED_SOURCES, value: feedSources })
@@ -65,13 +73,13 @@ function App() {
             <h3> <i className="lni lni-coffee-cup"></i> Minimalist Reader </h3>
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
-              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource}/>
+              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource} handleFilter={filterBySource} filters={filters}/>
             </nav>
           </div>
         </header>
         <main>
           <div className="feed">
-            <Feed feed={feed}/>
+            <Feed feed={feed} filters={filters}/>
           </div>
           <div className="rightbar">
             <nav>

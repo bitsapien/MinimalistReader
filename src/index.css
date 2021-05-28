@@ -21,6 +21,7 @@ body {
   color: white;
   padding: 5px;
   display: inline-block;
+  cursor: pointer;
 }
 
 /*Sidebar Nav*/
@@ -87,6 +88,11 @@ button.delete {
 
 .feed-source {
   display: flex;
+}
+
+.feed-source.active .source-tag {
+  background-color: rgb(219, 219, 219);
+  color: #2f2f2f;
 }
 
 /* Insta */
