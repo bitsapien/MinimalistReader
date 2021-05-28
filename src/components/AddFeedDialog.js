@@ -27,7 +27,7 @@ const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
       <div className="dialog-body">
         <label htmlFor="feed-url">
           URL
-          <input id="feed-url" type="text" value={url} onChange={(e) => setAndResolveURL(e.target.value)}/>
+          <input id="feed-url" type="url" value={url} onChange={(e) => setAndResolveURL(e.target.value)}/>
         </label>
         <label htmlFor="feed-name">
           Name
