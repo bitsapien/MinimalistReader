@@ -47,9 +47,9 @@ function App() {
   }
 
   const filterBySource = (feedSrc) => {
-    const feedSrcRef = 'feed-source'
-    if(filters.filter(f => f.ref === feedSrcRef && f.value === feedSrc.url).length > 0)
-      setFilters(filters.filter(f => f.ref !== feedSrcRef && f.value !== feedSrc.url))
+    const feedSrcRef = feedSrc.url
+    if(filters.filter(f => f.ref === feedSrcRef).length > 0)
+      setFilters(filters.filter(f => f.ref !== feedSrcRef))
     else
       setFilters([ ...filters, { name: "source.url", value: feedSrc.url, ref: feedSrcRef } ])
   }

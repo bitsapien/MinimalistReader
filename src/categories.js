@@ -1,4 +1,5 @@
-const cleanse = (post, type) => {
+const humanCategory = (post) => {
+  const type = post.openGraphData['og:type']
   if(type === 'object' && post.openGraphData['og:site_name'] === 'GitHub')
     return {
       filters: [
@@ -24,7 +25,7 @@ const cleanse = (post, type) => {
 }
 
 const collectCategories = (feedData) => {
-  const categories = feedData.map(post => post.openGraphData && cleanse(post, post.openGraphData['og:type'])).filter(f => f).reduce((acc, curr) => {
+  const categories = feedData.map(post => post.openGraphData && humanCategory(post)).filter(f => f).reduce((acc, curr) => {
     acc[curr.humanised] = curr
     return acc
   },{})
@@ -36,4 +37,4 @@ const collectCategories = (feedData) => {
 }
 
 
-export { collectCategories }
+export { humanCategory, collectCategories }

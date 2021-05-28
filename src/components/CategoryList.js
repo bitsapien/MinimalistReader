@@ -1,4 +1,4 @@
-const CategoryTag = ({ name }) => (<span className="category-tag"> { name } </span>)
+import CategoryTag from './CategoryTag'
 
 const CategoryList = ({ categories, handleFilter, filters }) => {
 

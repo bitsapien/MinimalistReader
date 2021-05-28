@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { writeStore } from '../store'
 import SourceTag from './SourceTag'
 import LazyLoad from 'react-lazyload'
+import { humanCategory } from '../categories'
+import CategoryTag from './CategoryTag'
 
 
 const RichContent = ({ og }) => {
@@ -57,6 +59,9 @@ const Post = ({ interactionsFromStore, post }) => {
       </h3>
       <SourceTag url={source.url} name={source.name}/>
       <RichContent og={openGraphData}/>
+      {post.openGraphData && humanCategory(post) && (
+        <CategoryTag name={humanCategory(post).humanised} />
+      )}
     <div className="panel">
       <button onClick={() => setShowNote(!showNote)} className={showNote ? 'text-black': ''}> <i className='lni lni-notepad'></i> </button>
       <button onClick={() => toggleHeart(interaction.heart)}> <i className={heartStatus}></i> </button>
