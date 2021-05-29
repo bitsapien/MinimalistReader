@@ -24,6 +24,12 @@ const RichContent = ({ og }) => {
   return null
 }
 
+const LinkedSourceTag = ({ post }) =>
+  post.id.startsWith('https://news.ycombinator.com') ?
+    (<a href={post.id} title={post.title} target="_blank" rel="noreferrer"> <SourceTag url={post.source.url} name={post.source.name}/> </a>) :
+    <SourceTag url={post.source.url} name={post.source.name}/>
+
+
 const Post = ({ interactionsFromStore, post }) => {
 
   const interactionForPost = interactionsFromStore.filter(i => i.id === post.id)[0] || { id: post.id }
@@ -58,7 +64,7 @@ const Post = ({ interactionsFromStore, post }) => {
           <i className="lni lni-link"></i> {title}
         </a>
       </h3>
-      <SourceTag url={source.url} name={source.name}/>
+      <LinkedSourceTag post={ {title, id, source} } />
       <RichContent og={openGraphData}/>
       {post.openGraphData && humanCategory(post) && (
         <CategoryTag name={humanCategory(post).humanised} />
