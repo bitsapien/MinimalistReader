@@ -17,7 +17,6 @@ const SlidingWindow = ({ children, list }) => {
   const [to, setTo] = React.useState(10);
   useEffect(() => {
     const [_from, _to] = range(list.length, visibleList);
-    console.log({ _from, _to, visibleList });
     setFrom(_from);
     setTo(_to);
   }, [visibleList, list.length]);

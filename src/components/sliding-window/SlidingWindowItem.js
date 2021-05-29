@@ -7,7 +7,7 @@ export const SlidingWindowItem = ({ children, pid }) => {
   const ref = React.useRef();
   const isVisible = useOnScreen(ref);
   useEffect(() => {
-    let updatedList = visibleList;
+    let updatedList = new Set(visibleList);
     if (isVisible && !visibleList.has(pid)) {
       updatedList.add(pid);
       setVisibleList(updatedList);
@@ -15,7 +15,6 @@ export const SlidingWindowItem = ({ children, pid }) => {
       updatedList.delete(pid);
       setVisibleList(updatedList);
     }
-    console.log({ visibleList });
   }, [isVisible, visibleList, setVisibleList, pid]);
   return <div ref={ref}>{children}</div>;
 };
