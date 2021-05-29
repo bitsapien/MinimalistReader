@@ -17,22 +17,24 @@ const Feed = ({ feed, filters }) => {
   return (
     <div>
       <SlidingWindowContainer list={sortedAndFilteredFeed}>
-        {({ listWithPid }) =>
-          listWithPid.map((post, index) => (
-            <SlidingWindowItem pid={post.pid} key={post.id}>
+        {({ from, to, listWithPid }) =>
+          listWithPid.map((post, index) => {
+            return ifIndexInRange(index, from, to) ? <SlidingWindowItem pid={post.pid} key={post.id}>
               <LazyLoad key={index} offset={200}>
                 <Post
                   post={post}
                   interactionsFromStore={interactionsFromStore}
                 />
               </LazyLoad>
-            </SlidingWindowItem>
-          ))
+            </SlidingWindowItem> : null;
+          })
         }
       </SlidingWindowContainer>
       <section className="you-are-done">Fin.</section>
     </div>
   );
 };
+
+const ifIndexInRange = (index, from, to) => index >= from && index <= to;
 
 export default Feed;

@@ -15,6 +15,6 @@ export const SlidingWindowItem = ({ children, pid }) => {
       updatedList.delete(pid);
       setVisibleList(updatedList);
     }
-  }, [isVisible, visibleList, setVisibleList, pid]);
+  }, [isVisible, pid]);
   return <div ref={ref}>{children}</div>;
 };
