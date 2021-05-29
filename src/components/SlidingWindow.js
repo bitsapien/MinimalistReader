@@ -7,32 +7,39 @@ const SlidingWindowContext = React.createContext({
 });
 const SlidingWindowProvider = SlidingWindowContext.Provider;
 
-const SlidingWindow = ({ children, list }) => {
+const SlidingWindowContainer = ({ children, list }) => {
   const [visibleList, setVisibleList] = React.useState(new Set());
+  const listWithPid = list.map((l, pid) => ({...l, pid}));
   return (
     <SlidingWindowProvider value={{ visibleList, setVisibleList }}>
-      {children({ list })}
+      {children({ list: listWithPid })}
     </SlidingWindowProvider>
   );
 };
 
-export const SlidingWindowItem = ({ children, id }) => {
+const SlidingWindow = ({ children, list }) => {
+  const { visibleList } =
+    React.useContext(SlidingWindowContext);
+  
+}
+
+export const SlidingWindowItem = ({ children, pid }) => {
   const { visibleList, setVisibleList } =
     React.useContext(SlidingWindowContext);
   const ref = React.useRef();
   const isVisible = useOnScreen(ref);
   useEffect(() => {
     let updatedList = visibleList;
-    if (isVisible && !visibleList.has(id)) {
-      console.log("Adding ", id);
-      updatedList.add(id);
+    if (isVisible && !visibleList.has(pid)) {
+      console.log("Adding ", pid);
+      updatedList.add(pid);
       setVisibleList(updatedList);
-    } else if (!isVisible && visibleList.has(id)) {
-      console.log("Removing ", id);
-      updatedList.delete(id);
+    } else if (!isVisible && visibleList.has(pid)) {
+      console.log("Removing ", pid);
+      updatedList.delete(pid);
       setVisibleList(updatedList);
     }
-  }, [isVisible, visibleList, setVisibleList, id]);
+  }, [isVisible, visibleList, setVisibleList, pid]);
   return <div ref={ref}>{children}</div>;
 };
-export default SlidingWindow;
+export default SlidingWindowContainer;
