@@ -2,7 +2,7 @@ import Post from "./Post";
 import { readStore } from "../store";
 import LazyLoad from "react-lazyload";
 import { filterFeed } from "../filters";
-import SlidingWindowContainer, { SlidingWindowItem } from "./SlidingWindow";
+import SlidingWindowContainer, { SlidingWindowItem } from "./sliding-window";
 
 const INTERACTIONS = "interactions";
 const interactionsFromStore = readStore()[INTERACTIONS] || [];
@@ -17,8 +17,8 @@ const Feed = ({ feed, filters }) => {
   return (
     <div>
       <SlidingWindowContainer list={sortedAndFilteredFeed}>
-        {({ list }) =>
-          list.map((post, index) => (
+        {({ listWithPid }) =>
+          listWithPid.map((post, index) => (
             <SlidingWindowItem pid={post.pid} key={post.id}>
               <LazyLoad key={index} offset={200}>
                 <Post
