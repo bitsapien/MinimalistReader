@@ -1,5 +1,5 @@
-
-const storeName = 'appState'
+import { LOCAL_STORAGE_ROOT_KEY } from './constants'
+const storeName = LOCAL_STORAGE_ROOT_KEY
 
 const writeStore = ({ key, value }) => {
   const newState = {}

@@ -26,6 +26,26 @@ body {
   margin: 0 auto;
 }
 
+.welcome-page input[type=file] {
+  display: none;
+}
+
+.welcome-page .import-file {
+  padding: 1rem;
+  text-decoration: none;
+  color: #202020;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0;
+  background-color: #ececec;
+  cursor: pointer;
+  max-width: 200px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+
 .source-tag {
   border-radius: 2px;
   background-color: #202020;
@@ -290,6 +310,20 @@ section.you-are-done {
 .rightbar nav {
   margin-left: 3rem;
   position: fixed;
+}
+
+.rightbar input[type=file] {
+  display: none;
+}
+
+.rightbar .import-file {
+  padding: 1rem;
+  padding-left: 0;
+  text-decoration: none;
+  color: #202020;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0;
 }
 
 input {

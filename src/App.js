@@ -10,11 +10,10 @@ import download from './download'
 import WelcomePage from './components/WelcomePage'
 import Logo from './components/Logo'
 import Loader from './components/Loader'
+import Import from './components/Import'
+import { FEED_SOURCES, FEED_DATA, INTERACTIONS } from './constants'
 
 // Read from store
-
-const FEED_SOURCES = 'feedSources'
-const FEED_DATA = 'feedData'
 
 const feedSourcesFromStore = readStore()[FEED_SOURCES] || []
 const feedDataFromStore = readStore()[FEED_DATA] || { data: [] }
@@ -47,6 +46,21 @@ function App() {
 
   const exportData = () =>
     download(`minimalist-reader-dump-${Date.now()}.json`)
+
+  const importData = (file) => {
+    const reader = new FileReader();
+    reader.onloadend = (e) => {
+      // overwrite appState
+      const jsonFromFile = JSON.parse(e.target.result)
+      setFeedSources(jsonFromFile[FEED_SOURCES])
+      writeStore({ key: INTERACTIONS, value: jsonFromFile[INTERACTIONS] })
+      fetchFeedAndSet(jsonFromFile[FEED_SOURCES])
+    }
+    reader.readAsText(file)
+
+  }
+
+
 
   const deleteFeedSource = ({ name, url }) => {
     const response = window.confirm(`Are you sure you want to delete - ${name} ?`)
@@ -110,8 +124,11 @@ function App() {
           <div className="rightbar">
             <nav>
               <a href="/#" onClick={() => exportData()} title="refresh"> <i className="lni lni-download"></i> Export & Save </a>
-              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh">
-                {feedLoading ? <Loader/> : <i className="lni lni-reload"></i>} Reload
+
+              <Import importData={importData} />
+              <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh" disabled={feedLoading}>
+                {feedLoading ? <Loader/> : <i className="lni lni-reload"></i>}
+                {feedLoading ? ' Loading Feed ...' : ' Reload'}
               </a>
             </nav>
           </div>

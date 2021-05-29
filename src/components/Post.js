@@ -5,6 +5,7 @@ import LazyLoad from 'react-lazyload'
 import { humanCategory } from '../categories'
 import CategoryTag from './CategoryTag'
 import { timeSince } from '../time'
+import { INTERACTIONS } from '../constants'
 
 
 const RichContent = ({ og }) => {
@@ -50,7 +51,7 @@ const Post = ({ interactionsFromStore, post }) => {
   // sync to storage
   useEffect(() => {
     const interactionsFromStoreWithoutThis = interactionsFromStore.filter(is => is.id !== post.id)
-    writeStore({ key: 'interactions', value: [ ...interactionsFromStoreWithoutThis, interaction]})
+    writeStore({ key: INTERACTIONS, value: [ ...interactionsFromStoreWithoutThis, interaction]})
 
   }, [interaction, interactionsFromStore, post.id])
 
