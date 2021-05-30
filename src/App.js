@@ -61,9 +61,21 @@ function App () {
     reader.readAsText(file)
   }
 
+  const archiveFeedSource = ({ name, url }) => {
+    const response = window.confirm(`Are you sure you want to archive - ${name} ? \nFeeds would no longer be fetched from this source.`)
+    if (response) {
+      const srcToDelete = feedSources.filter(feedSrc => feedSrc.url === url)
+      srcToDelete[0].deleted = true
+      setFeedSources([...feedSources.filter(f => f.url !== url), ...srcToDelete])
+    }
+  }
+
   const deleteFeedSource = ({ name, url }) => {
-    const response = window.confirm(`Are you sure you want to delete - ${name} ?`)
-    if (response) { setFeedSources(feedSources.filter(feedSrc => feedSrc.url !== url)) }
+    const response = window.confirm(`Are you sure you want to delete - ${name} ? \nFeeds that are already fetched will be deleted too.`)
+    if (response) {
+      setFeedSources(feedSources.filter(f => f.url !== url))
+      setFeed(feed.filter(f => f.source.url !== url))
+    }
   }
 
   const filterBySource = (feedSrc) => {
@@ -101,7 +113,7 @@ function App () {
             <Logo />
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
-              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource} handleFilter={filterBySource} filters={filters}/>
+              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource} handleArchive={archiveFeedSource} handleFilter={filterBySource} filters={filters}/>
             </nav>
             <h3> Categories </h3>
             <CategoryList handleFilter={filterByCategory} categories={collectCategories(feed)} filters={filters}/>
