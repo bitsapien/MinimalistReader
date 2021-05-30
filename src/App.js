@@ -14,7 +14,6 @@ import Import from './components/Import'
 import { FEED_SOURCES, FEED_DATA, INTERACTIONS } from './constants'
 
 // Read from store
-
 const feedSourcesFromStore = readStore()[FEED_SOURCES] || []
 const feedDataFromStore = readStore()[FEED_DATA] || { data: [] }
 
@@ -40,7 +39,7 @@ function App () {
     setFeedLoading(true)
     const sourceUrls = feedSourcesList.map(f => f.url)
     const feedDataForSourcesFromStore = feed.filter(f => sourceUrls.includes(f.source.url))
-    fetchAllSources(feedSourcesList, feedDataForSourcesFromStore).then(data => {
+    fetchAllSources(feedSourcesList.filter(fs => !fs.deleted), feedDataForSourcesFromStore).then(data => {
       setFeed(([...feed, ...data]).filter(d => d.id))
       setFeedLoading(false)
     })
@@ -68,6 +67,12 @@ function App () {
       srcToDelete[0].deleted = true
       setFeedSources([...feedSources.filter(f => f.url !== url), ...srcToDelete])
     }
+  }
+
+  const unarchiveFeedSource = ({ name, url }) => {
+    const srcToDelete = feedSources.filter(feedSrc => feedSrc.url === url)
+    srcToDelete[0].deleted = false
+    setFeedSources([...feedSources.filter(f => f.url !== url), ...srcToDelete])
   }
 
   const deleteFeedSource = ({ name, url }) => {
@@ -113,7 +118,14 @@ function App () {
             <Logo />
             <nav>
               <a href="/#" onClick={() => setOpenAddFeedDialog(true)}> <i className="lni lni-plus"></i> Add feed </a>
-              <FeedSourceList sources={feedSources} handleDelete={deleteFeedSource} handleArchive={archiveFeedSource} handleFilter={filterBySource} filters={filters}/>
+              <FeedSourceList
+                sources={feedSources}
+                handleDelete={deleteFeedSource}
+                handleArchive={archiveFeedSource}
+                handleUnarchive={unarchiveFeedSource}
+                handleFilter={filterBySource}
+                filters={filters}
+              />
             </nav>
             <h3> Categories </h3>
             <CategoryList handleFilter={filterByCategory} categories={collectCategories(feed)} filters={filters}/>

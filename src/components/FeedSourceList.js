@@ -1,6 +1,6 @@
 import SourceTag from './SourceTag'
 
-const FeedSourceList = ({ sources, handleArchive, handleDelete, handleFilter, filters }) => {
+const FeedSourceList = ({ sources, handleArchive, handleDelete, handleUnarchive, handleFilter, filters }) => {
   const relevantUrls = filters.filter(filter => filter.name === 'source.url').map(filter => filter.value)
 
   const filterActiveClass = ({ url }) => relevantUrls.includes(url) ? 'active' : ''
@@ -19,6 +19,7 @@ const FeedSourceList = ({ sources, handleArchive, handleDelete, handleFilter, fi
       <span onClick={() => handleFilter(feedSrc)} >
         <SourceTag url={feedSrc.url} name={feedSrc.name} />
       </span>
+      <button onClick={() => handleUnarchive(feedSrc)} className={'delete'}> <i className="lni lni-arrow-up-circle"></i></button>
       <button onClick={() => handleDelete(feedSrc)} className={'delete'}> <i className="lni lni-cross-circle"></i></button>
     </div>
   ))
