@@ -6,17 +6,16 @@ const isValidUrl = url => {
   try {
     const urlParsed = new URL(url)
     return urlParsed
-  } catch(e) {
+  } catch (e) {
     return false
   }
 }
-
 
 const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
   const [url, setUrl] = useState('')
   const [name, setName] = useState('')
 
-  const setAndResolveURL = async(value) => {
+  const setAndResolveURL = async (value) => {
     setUrl(value)
     try {
       isValidUrl(value) && setName((await new Parser().parseURL(PROXY_URL + value)).title)
@@ -25,7 +24,7 @@ const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
     }
   }
 
-  return <div className="dialog" style={{display: open ? 'block' : 'none'}}>
+  return <div className="dialog" style={{ display: open ? 'block' : 'none' }}>
     <div className="dialog-content">
       <h3><i onClick={() => setOpen(false)} className="lni lni-close"></i></h3>
       <div className="dialog-body">

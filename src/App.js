@@ -18,7 +18,7 @@ import { FEED_SOURCES, FEED_DATA, INTERACTIONS } from './constants'
 const feedSourcesFromStore = readStore()[FEED_SOURCES] || []
 const feedDataFromStore = readStore()[FEED_DATA] || { data: [] }
 
-function App() {
+function App () {
   const [feed, setFeed] = useState(feedDataFromStore.data)
   const [feedLoading, setFeedLoading] = useState(false)
   const [feedSources, setFeedSources] = useState(feedSourcesFromStore)
@@ -27,7 +27,7 @@ function App() {
 
   // actions
   const addFeedSource = ({ url, name }) => {
-    if(feedSources.filter(fs => fs.url === url).length === 0) {
+    if (feedSources.filter(fs => fs.url === url).length === 0) {
       setFeedSources([...feedSources, { url, name }])
       fetchFeedAndSet([{ url, name }])
     } else {
@@ -48,7 +48,7 @@ function App() {
     download(`minimalist-reader-dump-${Date.now()}.json`)
 
   const importData = (file) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onloadend = (e) => {
       // overwrite appState
       const jsonFromFile = JSON.parse(e.target.result)
@@ -57,32 +57,21 @@ function App() {
       fetchFeedAndSet(jsonFromFile[FEED_SOURCES])
     }
     reader.readAsText(file)
-
   }
-
-
 
   const deleteFeedSource = ({ name, url }) => {
     const response = window.confirm(`Are you sure you want to delete - ${name} ?`)
-    if(response)
-      setFeedSources(feedSources.filter(feedSrc => feedSrc.url !== url))
+    if (response) { setFeedSources(feedSources.filter(feedSrc => feedSrc.url !== url)) }
   }
 
   const filterBySource = (feedSrc) => {
     const feedSrcRef = feedSrc.url
-    if(filters.filter(f => f.ref === feedSrcRef).length > 0)
-      setFilters(filters.filter(f => f.ref !== feedSrcRef))
-    else
-      setFilters([ ...filters, { name: "source.url", value: feedSrc.url, ref: feedSrcRef } ])
+    if (filters.filter(f => f.ref === feedSrcRef).length > 0) { setFilters(filters.filter(f => f.ref !== feedSrcRef)) } else { setFilters([...filters, { name: 'source.url', value: feedSrc.url, ref: feedSrcRef }]) }
   }
 
   const filterByCategory = (category) => {
     const categoryFilters = category.filters
-    if(filters.filter(f => f.ref === `category:${category.humanised}`).length > 0)
-      setFilters(filters.filter(f => f.ref !== `category:${category.humanised}`))
-    else
-      setFilters([ ...filters, ...categoryFilters ])
-
+    if (filters.filter(f => f.ref === `category:${category.humanised}`).length > 0) { setFilters(filters.filter(f => f.ref !== `category:${category.humanised}`)) } else { setFilters([...filters, ...categoryFilters]) }
   }
 
   // syncing feedSources to storage
@@ -99,8 +88,7 @@ function App() {
   }, [feed])
 
   // Show welcome screen if no data
-  if(feedSources.length === 0)
-    return <WelcomePage setFeedSources={setFeedSources} fetchFeedAndSet={fetchFeedAndSet} />
+  if (feedSources.length === 0) { return <WelcomePage setFeedSources={setFeedSources} fetchFeedAndSet={fetchFeedAndSet} /> }
 
   return (
     <div>
@@ -138,4 +126,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

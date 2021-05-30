@@ -1,4 +1,4 @@
-import sha256 from 'crypto-js/sha256';
+import sha256 from 'crypto-js/sha256'
 import Utf8 from 'crypto-js/enc-utf8'
 import Parser from 'rss-parser'
 
@@ -7,33 +7,33 @@ const generateId = data =>
 
 const PROXY_URL = 'http://localhost:8080/'
 
-function timeoutPromise(ms, promise) {
+function timeoutPromise (ms, promise) {
   return new Promise((resolve, reject) => {
     const timeoutId = setTimeout(() => {
-      reject(new Error("promise timeout"))
-    }, ms);
+      reject(new Error('promise timeout'))
+    }, ms)
     promise.then(
       (res) => {
-        clearTimeout(timeoutId);
-        resolve(res);
+        clearTimeout(timeoutId)
+        resolve(res)
       },
       (err) => {
-        clearTimeout(timeoutId);
-        reject(err);
+        clearTimeout(timeoutId)
+        reject(err)
       }
-    );
+    )
   })
 }
 
 const addMetadata = (items, source) =>
   items.map(item => ({
     ...item,
-    id: item.id || item.guid || generateId(item.link + source.url + item.pubDate,toString()),
+    id: item.id || item.guid || generateId(item.link + source.url + item.pubDate, toString()),
     source
   }))
 
-const getOpenGraph = async(feed) => {
-  const feedy = await feed.map(async(item) => {
+const getOpenGraph = async (feed) => {
+  const feedy = await feed.map(async (item) => {
     const page = await proxyFetch(item.link)
     const pageHTML = new window.DOMParser().parseFromString(page, 'text/html')
     const openGraphData = Array.from(pageHTML.querySelectorAll('meta'))
@@ -42,27 +42,27 @@ const getOpenGraph = async(feed) => {
       .reduce((obj, item) => {
         obj[item[0]] = item[1]
         return obj
-      },{})
+      }, {})
 
     return { ...item, openGraphData }
   })
   return feedy
 }
 
-const proxyFetch = async(url) => {
+const proxyFetch = async (url) => {
   const TIMEOUT = 10000
   try {
     const response = await timeoutPromise(TIMEOUT, fetch(PROXY_URL + url))
-    if(response.ok) {
+    if (response.ok) {
       return await response.text()
     }
-  } catch(e) {
+  } catch (e) {
     console.log('proxyFetch error: ', e)
     return ''
   }
 }
 
-const fetchBySource = async({ url, name }) => {
+const fetchBySource = async ({ url, name }) => {
   // fetch feed
   const result = await new Parser().parseURL(PROXY_URL + url)
   // convert to json
@@ -73,7 +73,7 @@ const fetchBySource = async({ url, name }) => {
   return feedWithOg
 }
 
-const fetchAllSources =  async(feedSources) => {
+const fetchAllSources = async (feedSources) => {
   const fetchPromises = feedSources.map(feedSrc => fetchBySource(feedSrc))
   const feedData = await Promise.all(fetchPromises)
   const allfeedDataFlattened = await Promise.all(feedData.flatMap(f => f))

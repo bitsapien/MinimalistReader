@@ -6,18 +6,17 @@ import { writeStore } from '../store'
 import { FEED_SOURCES, INTERACTIONS } from '../constants'
 
 const WelcomePage = ({ setFeedSources, fetchFeedAndSet }) => {
-
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
 
   // actions
 
   const addFeedSource = ({ url, name }) => {
-    fetchFeedAndSet([{url, name}])
-    setFeedSources([{ url, name}])
+    fetchFeedAndSet([{ url, name }])
+    setFeedSources([{ url, name }])
   }
 
   const importData = (file) => {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onloadend = (e) => {
       // overwrite appState
       const jsonFromFile = JSON.parse(e.target.result)
@@ -28,8 +27,7 @@ const WelcomePage = ({ setFeedSources, fetchFeedAndSet }) => {
     reader.readAsText(file)
   }
 
-
- return (
+  return (
   <div>
     <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog} addFeedSource={addFeedSource}/>
      <section className="welcome-page">

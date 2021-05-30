@@ -1,8 +1,7 @@
 const humanCategory = (post) => {
   const type = post.openGraphData['og:type'] && post.openGraphData['og:type'].toLowerCase()
-  if(!type)
-    return undefined
-  if(type === 'object' && post.openGraphData['og:site_name'] === 'GitHub')
+  if (!type) { return undefined }
+  if (type === 'object' && post.openGraphData['og:site_name'] === 'GitHub') {
     return {
       filters: [
         { name: 'openGraphData.og:site_name', value: 'GitHub', ref: 'category:github' },
@@ -10,33 +9,33 @@ const humanCategory = (post) => {
       ],
       humanised: 'github'
     }
-  else if(type === 'video.other')
+  } else if (type === 'video.other') {
     return {
       filters: [
-        { name: 'openGraphData.og:type', value: 'video.other', ref: 'category:video'}
+        { name: 'openGraphData.og:type', value: 'video.other', ref: 'category:video' }
       ],
       humanised: 'video'
     }
-  else if(type)
+  } else if (type) {
     return {
       filters: [
-        { name: 'openGraphData.og:type', value: type, ref: `category:${type}`}
+        { name: 'openGraphData.og:type', value: type, ref: `category:${type}` }
       ],
       humanised: type
     }
+  }
 }
 
 const collectCategories = (feedData) => {
   const categories = feedData.map(post => post.openGraphData && humanCategory(post)).filter(f => f).reduce((acc, curr) => {
     acc[curr.humanised] = curr
     return acc
-  },{})
+  }, {})
 
   return Object.keys(categories).map(humanised => ({
     humanised,
     ...categories[humanised]
   }))
 }
-
 
 export { humanCategory, collectCategories }

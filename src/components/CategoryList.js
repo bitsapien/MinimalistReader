@@ -1,7 +1,6 @@
 import CategoryTag from './CategoryTag'
 
 const CategoryList = ({ categories, handleFilter, filters }) => {
-
   const relevantCategories = filters.filter(filter => filter.ref.startsWith('category:')).map(filter => filter.ref)
 
   const filterActiveClass = (category) => relevantCategories.includes(`category:${category}`) ? 'active' : ''
@@ -13,7 +12,6 @@ const CategoryList = ({ categories, handleFilter, filters }) => {
   ))
 
   return (<div> {list} </div>)
-
 }
 
 export default CategoryList

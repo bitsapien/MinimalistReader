@@ -10,7 +10,6 @@ const writeStore = ({ key, value }) => {
   localStorage.setItem(storeName, JSON.stringify({ ...oldState, ...newState }))
 }
 
-
 const readStore = () => {
   const state = localStorage.getItem(storeName)
   return state ? JSON.parse(state) : {}
