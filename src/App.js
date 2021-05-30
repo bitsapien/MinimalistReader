@@ -9,7 +9,6 @@ import { readStore, writeStore } from './store'
 import download from './download'
 import WelcomePage from './components/WelcomePage'
 import Logo from './components/Logo'
-import Loader from './components/Loader'
 import Import from './components/Import'
 import { FEED_SOURCES, FEED_DATA, INTERACTIONS } from './constants'
 
@@ -135,10 +134,7 @@ function App () {
         </header>
         <main>
           <div className="feed">
-            <div className={ feedLoading ? 'feed-loader-icon active' : 'feed-loader-icon' }>
-              {feedLoading ? <Loader/> : ''}
-            </div>
-            <Feed feed={feed} filters={filters}/>
+            <Feed feed={feed} filters={filters} isLoading={feedLoading}/>
           </div>
           <div className="rightbar">
             <nav>
