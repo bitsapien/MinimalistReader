@@ -162,6 +162,16 @@ main {
   width: 500px;
 }
 
+.feed-loader-icon {
+  text-align: center;
+}
+
+.feed-loader-icon.active {
+  text-align: center;
+  padding: 3rem;
+  transition: padding 1s;
+}
+
 /* Post */
 
 

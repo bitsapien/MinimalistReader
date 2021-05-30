@@ -141,8 +141,7 @@ function App () {
 
               <Import importData={importData} />
               <a href="/#" onClick={() => fetchFeedAndSet(feedSources)} title="refresh" disabled={feedLoading}>
-                {feedLoading ? <Loader/> : <i className="lni lni-reload"></i>}
-                {feedLoading ? ' Loading Feed ...' : ' Reload'}
+                <i className="lni lni-reload"></i> Reload
               </a>
             </nav>
           </div>
