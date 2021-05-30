@@ -16,6 +16,13 @@ const humanCategory = (post) => {
       ],
       humanised: 'video'
     }
+  } else if (type === 'product.group') {
+    return {
+      filters: [
+        { name: 'openGraphData.og:type', value: 'product.group', ref: 'category:product' }
+      ],
+      humanised: 'product'
+    }
   } else if (type) {
     return {
       filters: [
