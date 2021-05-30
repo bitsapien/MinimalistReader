@@ -38,7 +38,9 @@ function App () {
 
   const fetchFeedAndSet = (feedSourcesList) => {
     setFeedLoading(true)
-    fetchAllSources(feedSourcesList).then(data => {
+    const sourceUrls = feedSourcesList.map(f => f.url)
+    const feedDataForSourcesFromStore = feed.filter(f => sourceUrls.includes(f.source.url))
+    fetchAllSources(feedSourcesList, feedDataForSourcesFromStore).then(data => {
       setFeed(([...feed, ...data]).filter(d => d.id))
       setFeedLoading(false)
     })
