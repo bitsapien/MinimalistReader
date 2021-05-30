@@ -35,5 +35,4 @@ const FeedSourceList = ({ sources, handleArchive, handleDelete, handleUnarchive,
     </div>)
 }
 
-
 export default FeedSourceList

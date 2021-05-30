@@ -17,8 +17,8 @@ const Feed = ({ feed, filters }) => {
   const totalPosts = sortedAndFilteredFeed.length
   const [numberOfLoadedPosts, setNumberOfLoadedPosts] = useState(50)
 
-  const buttonOrFin = totalPosts > numberOfLoadedPosts ?
-      (<button
+  const buttonOrFin = totalPosts > numberOfLoadedPosts
+    ? (<button
         onClick={() => setNumberOfLoadedPosts(numberOfLoadedPosts + 10)}>
           Load More
         </button>)
@@ -28,7 +28,7 @@ const Feed = ({ feed, filters }) => {
 
   return (
   <div>
-    {sortedAndFilteredFeed.slice(0, numberOfLoadedPosts-1).map((post, index) => (
+    {sortedAndFilteredFeed.slice(0, numberOfLoadedPosts - 1).map((post, index) => (
       <LazyLoad key={index} offset={200}>
         <Post post={post} interactionsFromStore={interactionsFromStore}/>
       </LazyLoad>
