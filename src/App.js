@@ -40,7 +40,9 @@ function App () {
     const sourceUrls = feedSourcesList.map(f => f.url)
     const feedDataForSourcesFromStore = feed.filter(f => sourceUrls.includes(f.source.url))
     fetchAllSources(feedSourcesList.filter(fs => !fs.deleted), feedDataForSourcesFromStore).then(data => {
-      setFeed(([...feed, ...data]).filter(d => d.id))
+      const currentIds = feed.map(f => f.id)
+      const newData = data.filter(d => !currentIds.includes(d.id))
+      setFeed([...feed, ...newData])
       setFeedLoading(false)
     })
   }
@@ -133,6 +135,9 @@ function App () {
         </header>
         <main>
           <div className="feed">
+            <div className={ feedLoading ? 'feed-loader-icon active' : 'feed-loader-icon' }>
+              {feedLoading ? <Loader/> : ''}
+            </div>
             <Feed feed={feed} filters={filters}/>
           </div>
           <div className="rightbar">
