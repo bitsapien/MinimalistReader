@@ -1,4 +1,5 @@
 import SourceTag from './SourceTag'
+import { PropTypes } from 'prop-types'
 
 const FeedSourceList = ({ sources, handleArchive, handleDelete, handleUnarchive, handleFilter, filters }) => {
   const relevantUrls = filters.filter(filter => filter.name === 'source.url').map(filter => filter.value)
@@ -33,6 +34,15 @@ const FeedSourceList = ({ sources, handleArchive, handleDelete, handleUnarchive,
     {allSources}
     {archivedSources.length > 0 ? archivedSourcesWithHeader : ''}
     </div>)
+}
+
+FeedSourceList.propTypes = {
+  sources: PropTypes.array,
+  filters: PropTypes.array,
+  handleArchive: PropTypes.func,
+  handleDelete: PropTypes.func,
+  handleUnarchive: PropTypes.func,
+  handleFilter: PropTypes.func
 }
 
 export default FeedSourceList

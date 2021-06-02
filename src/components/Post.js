@@ -6,6 +6,7 @@ import { humanCategory } from '../categories'
 import CategoryTag from './CategoryTag'
 import { timeSince } from '../time'
 import { INTERACTIONS } from '../constants'
+import { PropTypes } from 'prop-types'
 
 const RichContent = ({ og }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -24,10 +25,18 @@ const RichContent = ({ og }) => {
   return null
 }
 
+RichContent.propTypes = {
+  og: PropTypes.object
+}
+
 const LinkedSourceTag = ({ post }) =>
   post.id.startsWith('https://news.ycombinator.com')
     ? (<a href={post.id} title={post.title} target="_blank" rel="noreferrer"> <SourceTag url={post.source.url} name={post.source.name}/> </a>)
     : <SourceTag url={post.source.url} name={post.source.name}/>
+
+LinkedSourceTag.propTypes = {
+  post: PropTypes.object
+}
 
 const Post = ({ interactionsFromStore, post }) => {
   const interactionForPost = interactionsFromStore.filter(i => i.id === post.id)[0] || { id: post.id }
@@ -78,6 +87,11 @@ const Post = ({ interactionsFromStore, post }) => {
   )
 
   return (<div> {createPost(post)} </div>)
+}
+
+Post.propTypes = {
+  post: PropTypes.object,
+  interactionsFromStore: PropTypes.array
 }
 
 export default Post

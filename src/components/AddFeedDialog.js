@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { PropTypes } from 'prop-types'
 import Parser from 'rss-parser'
 import { PROXY_URL } from '../fetcher'
 
@@ -40,6 +41,12 @@ const AddFeedDialog = ({ open, setOpen, addFeedSource }) => {
       </div>
     </div>
   </div>
+}
+
+AddFeedDialog.propTypes = {
+  open: PropTypes.bool,
+  setOpen: PropTypes.func,
+  addFeedSource: PropTypes.func
 }
 
 export default AddFeedDialog

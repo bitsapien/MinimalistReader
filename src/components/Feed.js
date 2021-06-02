@@ -4,6 +4,7 @@ import LazyLoad from 'react-lazyload'
 import { filterFeed } from '../filters'
 import { useState } from 'react'
 import Loader from './Loader'
+import { PropTypes } from 'prop-types'
 
 const INTERACTIONS = 'interactions'
 const interactionsFromStore = readStore()[INTERACTIONS] || []
@@ -39,6 +40,12 @@ const Feed = ({ feed, filters, isLoading }) => {
     ))}
     {buttonOrFin}
   </div>)
+}
+
+Feed.propTypes = {
+  feed: PropTypes.object,
+  filters: PropTypes.array,
+  isLoading: PropTypes.bool
 }
 
 export default Feed

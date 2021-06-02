@@ -4,6 +4,7 @@ import AddFeedDialog from './AddFeedDialog'
 import Import from './Import'
 import { writeStore } from '../store'
 import { FEED_SOURCES, INTERACTIONS } from '../constants'
+import { PropTypes } from 'prop-types'
 
 const WelcomePage = ({ setFeedSources, fetchFeedAndSet }) => {
   const [openAddFeedDialog, setOpenAddFeedDialog] = useState(false)
@@ -39,6 +40,11 @@ const WelcomePage = ({ setFeedSources, fetchFeedAndSet }) => {
         <Import importData={importData} />
     </section>
   </div>)
+}
+
+WelcomePage.propTypes = {
+  setFeedSources: PropTypes.func,
+  fetchFeedAndSet: PropTypes.func
 }
 
 export default WelcomePage
