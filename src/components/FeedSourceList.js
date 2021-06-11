@@ -16,7 +16,7 @@ const FeedSourceList = ({ sources, handleArchive, handleDelete, handleUnarchive,
   ))
 
   const archivedSources = sources.filter(s => s.deleted).map((feedSrc, index) => (
-    <div key={index} className={['feed-source', filterActiveClass(feedSrc)].join(' ')}>
+    <div key={index} className={['feed-source', 'archived', filterActiveClass(feedSrc)].join(' ')}>
       <span onClick={() => handleFilter(feedSrc)} >
         <SourceTag url={feedSrc.url} name={feedSrc.name} />
       </span>

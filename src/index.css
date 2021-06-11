@@ -48,7 +48,7 @@ body {
 
 .source-tag {
   border-radius: 2px;
-  background-color: #202020;
+  background-color: #121212;
   color: white;
   padding: 5px;
   display: inline-block;
@@ -57,6 +57,14 @@ body {
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.feed-source .source-tag {
+  color: rgba(255,255,255,0.8)
+}
+
+.feed-source.archived .source-tag {
+  color: rgba(255,255,255,0.6)
 }
 
 .category-tag {
@@ -147,8 +155,8 @@ button.delete {
 }
 
 .feed-source.active .source-tag {
-  background-color: rgb(219, 219, 219);
-  color: #2f2f2f;
+  background-color: #202020;
+  color: white;
 }
 
 /* Insta */
