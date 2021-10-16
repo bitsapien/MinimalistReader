@@ -33,8 +33,8 @@ const Feed = ({ feed, filters, isLoading }) => {
     <div className={ isLoading ? 'feed-loader-icon active' : 'feed-loader-icon' }>
       {isLoading ? <Loader/> : ''}
     </div>
-    {sortedAndFilteredFeed.slice(0, numberOfLoadedPosts - 1).map((post, index) => (
-      <LazyLoad key={index} offset={200}>
+    {sortedAndFilteredFeed.slice(0, numberOfLoadedPosts - 1).map(post => (
+      <LazyLoad key={post.id} offset={200}>
         <Post post={post} interactionsFromStore={interactionsFromStore}/>
       </LazyLoad>
     ))}
@@ -43,7 +43,7 @@ const Feed = ({ feed, filters, isLoading }) => {
 }
 
 Feed.propTypes = {
-  feed: PropTypes.object,
+  feed: PropTypes.array,
   filters: PropTypes.array,
   isLoading: PropTypes.bool
 }

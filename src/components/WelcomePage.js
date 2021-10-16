@@ -32,9 +32,9 @@ const WelcomePage = ({ setFeedSources, fetchFeedAndSet }) => {
   <div>
     <AddFeedDialog open={openAddFeedDialog} setOpen={setOpenAddFeedDialog} addFeedSource={addFeedSource}/>
      <section className="welcome-page">
-        <h1><Logo/></h1>
+        <Logo/>
         <p> You have no feed sources, add one using the button below to start or import. 🚀 </p>
-        <button onClick={() => setOpenAddFeedDialog(true)}>
+        <button aria-label="Add Feed" onClick={() => setOpenAddFeedDialog(true)}>
             <i className="lni lni-plus"></i> Add feed
         </button>
         <Import importData={importData} />

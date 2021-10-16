@@ -62,7 +62,7 @@ const getOpenGraph = async (feed, feedDataFromStore) => {
 const proxyFetch = async (url) => {
   const TIMEOUT = 10000
   try {
-    const response = await timeoutPromise(TIMEOUT, fetch(PROXY_URL + url, { headers: { 'X-Requested-With': 'XMLHTTPRequest' } }))
+    const response = await timeoutPromise(TIMEOUT, window.fetch(PROXY_URL + url, { headers: { 'X-Requested-With': 'XMLHTTPRequest' } }))
     if (response.ok) {
       return await response.text()
     }

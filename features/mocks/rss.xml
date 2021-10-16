@@ -1,0 +1,32 @@
+const rss = `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bitsapien</title>
+    <link>https://blog.bitsapien.dev/</link>
+    <description>Recent content on bitsapien</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Mar 2021 20:39:42 +0530</lastBuildDate><atom:link href="https://blog.bitsapien.dev/index.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Testing Matters</title>
+      <link>https://blog.bitsapien.dev/notes/talks/testing-matters/</link>
+      <pubDate>Wed, 17 Mar 2021 20:39:42 +0530</pubDate>
+
+      <guid>https://blog.bitsapien.dev/notes/talks/testing-matters/</guid>
+      <description>   A talk I gave at ThoughtWork&amp;rsquo;s Geek Night introducing a new model to think about testing.
+Leave me feedback at bitsapien+testsmatter@gmail.com
+References  Dan North : Software that fits in your head  Ian Cooper: TDD, Where did it all go wrong  DHH: TDD is Dead, Long Live Testing  TW Hangouts: Is TDD Dead?  Hexagonal Architecture   Slides PDF </description>
+    </item>
+
+    <item>
+      <title>OAuth 2.0</title>
+      <link>https://blog.bitsapien.dev/notes/shorts/oauth-20/</link>
+      <pubDate>Mon, 25 Jan 2021 16:07:44 +0530</pubDate>
+
+      <guid>https://blog.bitsapien.dev/notes/shorts/oauth-20/</guid>
+      <description>What problem does OAuth2.0 solve ? OAuth2.0 enables third-party client applications to gain delegated access to an end user&amp;rsquo;s data and actions without having to share the end user&amp;rsquo;s credentials to the third-party client application.
+How it works? The basic flow involves the client application to request authorization from the resource owner, which is usually in the form of a token. This token can then be used by the client application to &amp;ldquo;do&amp;rdquo; things on behalf of the resource owner.</description>
+    </item>
+  </channel>
+  </rss>`
+
+module.exports = { rss }
